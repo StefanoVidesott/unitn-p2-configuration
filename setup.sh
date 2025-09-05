@@ -87,9 +87,9 @@ mkdir -p $TEMPLATES_DIR
 cp config/templates/Programmazione-2.zip $TEMPLATES_DIR/
 _ok "Template 'Programmazione-2' copiato in IntelliJ"
 
-# # ===== PULIZIA TEMPORANEI =====
-# _msg "Pulizia file temporanei..."
-# rm -rf "$DOWNLOAD_DIR"
+# ===== PULIZIA TEMPORANEI =====
+_msg "Pulizia file temporanei..."
+rm -rf "$DOWNLOAD_DIR"
 
 # ===== FINE =====
 _title "Installazione completata"
