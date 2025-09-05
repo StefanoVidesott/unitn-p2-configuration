@@ -1,6 +1,6 @@
 <application>
   <component name="PathMacrosImpl">
-    <macro name="MAVEN_REPOSITORY" value="/home/stefano/.m2/repository" />
-    <macro name="JAVAFX_PATH" value="/home/stefano/.local/opt/java/javafx-sdk-21.0.6/lib" />
+    <macro name="JAVAFX_PATH" value="$USER_HOME$/.local/opt/java/javafx-sdk-21.0.6/lib" />
+    <macro name="MAVEN_REPOSITORY" value="$USER_HOME$/.m2/repository" />
   </component>
 </application>

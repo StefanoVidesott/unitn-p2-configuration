@@ -20,7 +20,7 @@ L’intero processo si avvia con un unico script (`setup.sh`) che installa e con
 
 > [!Caution]
 > **IMPORTANTE:** <br>
-> L'unico passaggio lasciato all'utente è il login con un account JetBrains (necessario per la licenza gratuita studenti) ed al primo avvio di un progetto, selezionare: *Project SDK* -> *Add JDK from disk...* -> `~/.local/opt/java/jdk-23.0.2`.
+> L'unico passaggio lasciato all'utente è il login con un account JetBrains (necessario per la licenza gratuita studenti) ed alla prima configurazione di un progetto, se il Project SDK non è selezionato di default: *Project SDK* -> *Add JDK from disk...* -> `~/.local/opt/java/jdk-23.0.2`.
 
 
 ---
@@ -83,7 +83,7 @@ L’intero processo si avvia con un unico script (`setup.sh`) che installa e con
     - Installa il template **Programmazione-2** per i nuovi progetti
 
 ## 🖥️ Dopo l’installazione
-1. Avviare IntelliJ IDEA (`/opt/idea-IU-*/bin/idea.sh`)
+1. Avviare IntelliJ IDEA (`/opt/idea-IU-243.24978.46/bin/idea`)
 
 2. Effettuare login con account JetBrains (necessario per la licenza gratuita studenti)
 
@@ -91,7 +91,7 @@ L’intero processo si avvia con un unico script (`setup.sh`) che installa e con
 
 3. Selezionare il template **Programmazione-2**
 
-4. **Selezionare il JDK: Project SDK -> Add JDK from disk... ->**: `~/.local/opt/java/jdk-23.0.2`
+4. Non sempre l'SDK viene selezionato automaticamente. Se il JDK non è selezionato di default: Project SDK -> Add JDK from disk... ->**: `~/.local/opt/java/jdk-23.0.2`
 
 5. Provare a eseguire il progetto di esempio (HelloFX)
 
@@ -110,9 +110,9 @@ L’intero processo si avvia con un unico script (`setup.sh`) che installa e con
 Per rimuovere IntelliJ e Java installati dallo script, eseguire (sostituendo con la versione effettivamente installata se diversa):
 ```bash
 sudo rm -rf /opt/idea-IU-243.24978.46/
-sudo rm -rf ~/.config/JetBrains/IntelliJIdea2024.3/
-sudo rm -rf ~/.cache/JetBrains/IntelliJIdea2024.3/
-sudo rm -rf ~/.local/share/JetBrains/IntelliJIdea2024.3/
-sudo rm -rf ~/.local/opt/java/
-sudo rm -rf ~/IdeaProjects/ # (opzionale, rimuove i progetti creati)
+rm -rf ~/.config/JetBrains/IntelliJIdea2024.3/
+rm -rf ~/.cache/JetBrains/IntelliJIdea2024.3/
+rm -rf ~/.local/share/JetBrains/IntelliJIdea2024.3/
+rm -rf ~/.local/opt/java/
+rm -rf ~/IdeaProjects/ # (opzionale, rimuove i progetti creati)
 ```
