@@ -2,7 +2,7 @@
 set -e
 
 # ====== STYLE ======
-NL="\n"; NL2="${NL}${NL}"
+NL="\n"
 ESC="\033"
 
 NORM="${ESC}[0m"
@@ -10,10 +10,12 @@ BOLD="${ESC}[1m"
 RVON="${ESC}[7m"
 RVOFF="${ESC}[27m"
 
-COL_DFLT="${ESC}[39m"
 COL_LGRN="${ESC}[92m"
 COL_LMAG="${ESC}[95m"
 COL_LCYN="${ESC}[96m"
+COL_RED="${ESC}[91m"
+COL_YEL="${ESC}[93m"
+COL_CYN="${ESC}[36m"
 
 function _echo {
     echo -e "$1";
@@ -28,7 +30,7 @@ function _ok {
 }
 
 function _title {
-    _echo "${RVON}${BOLD}${COL_LMAG} $1 ${NORM}${RVOFF}"
+    _echo "${NL}${RVON}${BOLD}${COL_LMAG} $1 ${NORM}${RVOFF}"
 }
 
 # ====== URL DOWNLOAD ======
@@ -45,8 +47,9 @@ mkdir -p "$DOWNLOAD_DIR"
 _title "Download e installazione JDK"
 _msg "Scaricamento JDK 23.0.2..."
 wget -c "$JDK_URL" -O "$DOWNLOAD_DIR/jdk.tar.gz"
-mkdir -p ~/.local/opt
-tar -xzf "$DOWNLOAD_DIR/jdk.tar.gz" -C ~/.local/opt/ && _ok "JDK installato in ~/.local/opt"
+mkdir -p ~/.local/opt/java
+_msg "Estrazione JDK..."
+tar -xzf "$DOWNLOAD_DIR/jdk.tar.gz" -C ~/.local/opt/java && _ok "JDK installato in ~/.local/opt/java"
 
 _title "Download e installazione JavaFX SDK"
 _msg "Scaricamento JavaFX SDK..."
@@ -55,14 +58,15 @@ _msg "Scaricamento JavaFX Javadoc..."
 wget -c "$JAVAFX_DOC_URL" -O "$DOWNLOAD_DIR/javafx-doc.zip"
 
 _msg "Estrazione JavaFX SDK..."
-unzip -qo "$DOWNLOAD_DIR/javafx-sdk.zip" -d ~/.local/opt/
+unzip -qo "$DOWNLOAD_DIR/javafx-sdk.zip" -d ~/.local/opt/java && _ok "JavaFX SDK installato in ~/.local/opt/java"
 _msg "Estrazione JavaFX Javadoc..."
-unzip -qo "$DOWNLOAD_DIR/javafx-doc.zip" -d ~/.local/opt/
-_ok "JavaFX SDK e Javadoc installati in ~/.local/opt"
+unzip -qo "$DOWNLOAD_DIR/javafx-doc.zip" -d ~/.local/opt/java
+_ok "JavaFX SDK e Javadoc installati in ~/.local/opt/java"
 
 _title "Download e installazione IntelliJ IDEA"
 _msg "Scaricamento IntelliJ IDEA Ultimate 2024.3.3..."
 wget -c "$INTELLIJ_URL" -O "$DOWNLOAD_DIR/ideaIU.tar.gz"
+_msg "Estrazione IntelliJ IDEA..."
 sudo tar -xzf "$DOWNLOAD_DIR/ideaIU.tar.gz" -C /opt/ && _ok "IntelliJ estratto in /opt"
 
 _title "Installazione HelloFX"
@@ -83,12 +87,13 @@ cp config/templates/Programmazione-2.zip $TEMPLATES_DIR/
 _ok "Template 'Programmazione-2' copiato in IntelliJ"
 
 # Pulizia temporanei
-_title "Pulizia file temporanei..."
+_msg "Pulizia file temporanei..."
 rm -rf "$DOWNLOAD_DIR"
 
 _title "Installazione completata"
-_echo "${NL}Puoi ora avviare IntelliJ IDEA e creare un nuovo progetto utilizzando il template 'Programmazione-2'."
-_echo "Il progetto HelloFX è disponibile in ~/IdeaProjects/HelloFX."
-_echo "${NL}Buon lavoro!"
-_echo "Per avviare IntelliJ IDEA, esegui: '/opt/idea-IU-*/bin/idea.sh'"
-_echo "(poi potrai creare una desktop entry dall'IDE: Ingranaggio in basso a destra -> 'Create Desktop Entry...')."
+_echo "${NL}${COL_CYN}Puoi ora avviare IntelliJ IDEA e creare un nuovo progetto utilizzando il template 'Programmazione-2'."
+_echo "${COL_RED}IMPORTANTE:${NORM}${COL_YEL} Quando configuri il primo progetto assicurati di selezionare il 'Project SDK' Add JDK from disk: '~/.local/opt/java/jdk-23.0.2'"
+_echo "${COL_CYN}Il progetto HelloFX è disponibile in ~/IdeaProjects/HelloFX."
+_echo "${NL}Per avviare IntelliJ IDEA, esegui: '/opt/idea-IU-*/bin/idea.sh'"
+_echo "(poi potrai creare una desktop entry dall'IDE: Ingranaggio in basso a destra -> 'Create Desktop Entry...'). ${NORM}"
+_title "Buon lavoro!"
