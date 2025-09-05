@@ -18,25 +18,25 @@ $javafxZip   = "openjfx-21.0.6_windows-x64_bin-sdk.zip"
 $javafxDoc   = "openjfx-21.0.6-javadoc.zip"
 $helloFxZip  = "HelloFX.tar.gz"
 
-# ===== DOWNLOAD =====
-Write-Title "Scarico i pacchetti"
-$downloads = @{
-    $ideaZip = "https://download.jetbrains.com/idea/ideaIU-2024.3.3.win.zip";
-    $jdkZip  = "https://download.java.net/java/GA/jdk23.0.2/6da2a6609d6e406f85c491fcb119101b/7/GPL/openjdk-23.0.2_windows-x64_bin.zip";
-    $javafxZip = "https://download2.gluonhq.com/openjfx/21.0.6/openjfx-21.0.6_windows-x64_bin-sdk.zip";
-    $javafxDoc = "https://download2.gluonhq.com/openjfx/21.0.6/openjfx-21.0.6-javadoc.zip"
-}
-New-Item -ItemType Directory -Force -Path downloads | Out-Null
-foreach ($file in $downloads.Keys) {
-    $url = $downloads[$file]
-    $out = "downloads\$file"
-    if (-Not (Test-Path $out)) {
-        Write-Host "↓ $file"
-        Invoke-WebRequest -Uri $url -OutFile $out
-    } else {
-        Write-Host "$file già presente, skip"
-    }
-}
+# # ===== DOWNLOAD =====
+# Write-Title "Scarico i pacchetti"
+# $downloads = @{
+#     $ideaZip = "https://download.jetbrains.com/idea/ideaIU-2024.3.3.win.zip";
+#     $jdkZip  = "https://download.java.net/java/GA/jdk23.0.2/6da2a6609d6e406f85c491fcb119101b/7/GPL/openjdk-23.0.2_windows-x64_bin.zip";
+#     $javafxZip = "https://download2.gluonhq.com/openjfx/21.0.6/openjfx-21.0.6_windows-x64_bin-sdk.zip";
+#     $javafxDoc = "https://download2.gluonhq.com/openjfx/21.0.6/openjfx-21.0.6-javadoc.zip"
+# }
+# New-Item -ItemType Directory -Force -Path downloads | Out-Null
+# foreach ($file in $downloads.Keys) {
+#     $url = $downloads[$file]
+#     $out = "downloads\$file"
+#     if (-Not (Test-Path $out)) {
+#         Write-Host "↓ $file"
+#         Invoke-WebRequest -Uri $url -OutFile $out
+#     } else {
+#         Write-Host "$file già presente, skip"
+#     }
+# }
 
 # ===== INSTALL JDK + JAVAFX =====
 Write-Title "Installazione JDK e JavaFX"
@@ -106,14 +106,14 @@ New-Item -ItemType Directory -Force -Path $templateDir | Out-Null
 Copy-Item "config\templates\Programmazione-2.zip" $templateDir -Force
 Write-Ok "Config e template copiati in $configDir"
 
-# ===== PULIZIA TEMPORANEI =====
-Write-Ok "Pulizia file temporanei"
-Remove-Item -Recurse -Force downloads
+# # ===== PULIZIA TEMPORANEI =====
+# Write-Ok "Pulizia file temporanei"
+# Remove-Item -Recurse -Force downloads
 
 # ===== CREAZIONE LINK INTELIJ A START MENU =====
 Write-Ok "Creazione collegamento a Start Menu"
 $shell = New-Object -ComObject WScript.Shell
-$shortcut = $shell.CreateShortcut("$env:APPDATA\Microsoft\Windows\Start Menu\Programs\IntelliJ IDEA.lnk")
+$shortcut = $shell.CreateShortcut("$env:APPDATA\Microsoft\Windows\Start Menu\Programs\IntelliJ IDEA 2024.3.lnk")
 $shortcut.TargetPath = "$ideaDir\bin\idea64.exe"
 $shortcut.Save()
 
