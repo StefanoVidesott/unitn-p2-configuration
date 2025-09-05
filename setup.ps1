@@ -113,7 +113,7 @@ Remove-Item -Recurse -Force downloads
 # ===== CREAZIONE LINK INTELIJ A START MENU =====
 Write-Ok "Creazione collegamento a Start Menu"
 $shell = New-Object -ComObject WScript.Shell
-$shortcut = $shell.CreateShortcut("$env:APPDATA\Microsoft\Windows\Start Menu\Programs\IntelliJ IDEA.lnk")
+$shortcut = $shell.CreateShortcut("$env:APPDATA\Microsoft\Windows\Start Menu\Programs\IntelliJ IDEA 2024.3.lnk")
 $shortcut.TargetPath = "$ideaDir\bin\idea64.exe"
 $shortcut.Save()
 

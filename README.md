@@ -162,5 +162,5 @@ Remove-Item -Recurse -Force "$env:APPDATA\JetBrains\IntelliJIdea2024.3\"
 Remove-Item -Recurse -Force "$env:LOCALAPPDATA\JetBrains\IntelliJIdea2024.3\"
 Remove-Item -Recurse -Force "$env:LOCALAPPDATA\Programs\Java"
 Remove-Item -Recurse -Force "$env:USERPROFILE\IdeaProjects\" # (opzionale, rimuove i progetti creati)
-Remove-Item -Path "$env:APPDATA\Microsoft\Windows\Start Menu\Programs\IntelliJ IDEA.lnk" # rimuove il collegamento a Start Menu
+Remove-Item -Path "$env:APPDATA\Microsoft\Windows\Start Menu\Programs\IntelliJ IDEA 2024.3.lnk" # rimuove il collegamento a Start Menu
 ```
