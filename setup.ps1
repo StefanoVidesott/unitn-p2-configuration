@@ -71,7 +71,37 @@ $xmlMacros = @"
 "@
 $xmlMacros | Out-File "$configDir\options\path.macros.xml" -Encoding UTF8
 
-Copy-Item "config\applicationLibraries.xml" "$configDir\options\" -Force
+Write-Title "Configurazione IntelliJ - applicationLibraries"
+$javafxLib = "$javaDir\javafx-sdk-21.0.6\lib"
+$javafxDoc = "$javaDir\javafx-21.0.6-javadoc"
+$xmlLibraries = @"
+<application>
+  <component name="libraryTable">
+    <library name="javafx-sdk-21">
+      <CLASSES>
+        <root url="file:///$javafxLib" />
+      </CLASSES>
+      <JAVADOC>
+        <root url="file:///$javafxDoc/javafx.base" />
+        <root url="file:///$javafxDoc/javafx.controls" />
+        <root url="file:///$javafxDoc/javafx.fxml" />
+        <root url="file:///$javafxDoc/javafx.graphics" />
+        <root url="file:///$javafxDoc/javafx.media" />
+        <root url="file:///$javafxDoc/javafx.swing" />
+        <root url="file:///$javafxDoc/javafx.web" />
+      </JAVADOC>
+      <NATIVE>
+        <root url="file:///$javafxLib" />
+      </NATIVE>
+      <SOURCES />
+      <jarDirectory url="file:///$javafxLib" recursive="false" />
+    </library>
+  </component>
+</application>
+"@
+$xmlLibraries | Out-File "$configDir\options\applicationLibraries.xml" -Encoding UTF8
+Write-Ok "applicationLibraries.xml generato con path per l'utente"
+
 New-Item -ItemType Directory -Force -Path $templateDir | Out-Null
 Copy-Item "config\templates\Programmazione-2.zip" $templateDir -Force
 Write-Ok "Config e template copiati in $configDir"
