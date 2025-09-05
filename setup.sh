@@ -75,9 +75,9 @@ tar -xzf archives/HelloFX.tar.gz -C ~/IdeaProjects/ && _ok "HelloFX installato i
 
 _title "Configurazione IntelliJ"
 CONFIG_DIR=~/.config/JetBrains/IntelliJIdea2024.3
-mkdir -p $CONFIG_DIR/options
-cp config/path.macros.xml $CONFIG_DIR/options/
-cp config/applicationLibraries.xml $CONFIG_DIR/options/
+mkdir -p "$CONFIG_DIR/options"
+sed "s|{{HOME}}|$HOME|g" config/path.macros.template.xml > "$CONFIG_DIR/options/path.macros.xml" # sostituzione {{HOME}} con $HOME
+cp config/applicationLibraries.xml "$CONFIG_DIR/options/"
 _ok "Configurazioni copiate in $CONFIG_DIR/options"
 
 _title "Installazione template IntelliJ..."

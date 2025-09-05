@@ -1,0 +1,6 @@
+<application>
+  <component name="PathMacrosImpl">
+    <macro name="JAVAFX_PATH" value="{{HOME}}/.local/opt/java/javafx-sdk-21.0.6/lib" />
+    <macro name="MAVEN_REPOSITORY" value="{{HOME}}/.m2/repository" />
+  </component>
+</application>
