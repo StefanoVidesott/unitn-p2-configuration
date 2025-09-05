@@ -16,7 +16,7 @@ $ideaZip     = "ideaIU-2024.3.3.win.zip"
 $jdkZip      = "openjdk-23.0.2_windows-x64_bin.zip"
 $javafxZip   = "openjfx-21.0.6_windows-x64_bin-sdk.zip"
 $javafxDoc   = "openjfx-21.0.6-javadoc.zip"
-$helloFxZip  = "HelloFX.tar.gz" # qui puoi tenerlo nel repo
+$helloFxZip  = "HelloFX.tar.gz"
 
 # ===== DOWNLOAD =====
 Write-Title "Scarico i pacchetti"
@@ -41,8 +41,8 @@ foreach ($file in $downloads.Keys) {
 # ===== INSTALL JDK + JAVAFX =====
 Write-Title "Installazione JDK e JavaFX"
 Expand-Archive -Force "downloads\$jdkZip" -DestinationPath $javaDir
-Expand-Archive -Force "downloads\$javafxZip" -DestinationPath "$javaDir\javafx-sdk-21.0.6"
-Expand-Archive -Force "downloads\$javafxDoc" -DestinationPath "$javaDir\javafx-21.0.6-javadoc"
+Expand-Archive -Force "downloads\$javafxZip" -DestinationPath "$javaDir"
+Expand-Archive -Force "downloads\$javafxDoc" -DestinationPath "$javaDir"
 Write-Ok "Java + JavaFX installati in $javaDir"
 
 # ===== INSTALL INTELLIJ =====
@@ -79,22 +79,22 @@ $xmlLibraries = @"
   <component name="libraryTable">
     <library name="javafx-sdk-21">
       <CLASSES>
-        <root url="file:///$javafxLib" />
+        <root url="file://$javafxLib" />
       </CLASSES>
       <JAVADOC>
-        <root url="file:///$javafxDoc/javafx.base" />
-        <root url="file:///$javafxDoc/javafx.controls" />
-        <root url="file:///$javafxDoc/javafx.fxml" />
-        <root url="file:///$javafxDoc/javafx.graphics" />
-        <root url="file:///$javafxDoc/javafx.media" />
-        <root url="file:///$javafxDoc/javafx.swing" />
-        <root url="file:///$javafxDoc/javafx.web" />
+        <root url="file://$javafxDoc/javafx.base" />
+        <root url="file://$javafxDoc/javafx.controls" />
+        <root url="file://$javafxDoc/javafx.fxml" />
+        <root url="file://$javafxDoc/javafx.graphics" />
+        <root url="file://$javafxDoc/javafx.media" />
+        <root url="file://$javafxDoc/javafx.swing" />
+        <root url="file://$javafxDoc/javafx.web" />
       </JAVADOC>
       <NATIVE>
-        <root url="file:///$javafxLib" />
+        <root url="file://$javafxLib" />
       </NATIVE>
       <SOURCES />
-      <jarDirectory url="file:///$javafxLib" recursive="false" />
+      <jarDirectory url="file://$javafxLib" recursive="false" />
     </library>
   </component>
 </application>
@@ -106,9 +106,21 @@ New-Item -ItemType Directory -Force -Path $templateDir | Out-Null
 Copy-Item "config\templates\Programmazione-2.zip" $templateDir -Force
 Write-Ok "Config e template copiati in $configDir"
 
+# ===== PULIZIA TEMPORANEI =====
+Write-Ok "Pulizia file temporanei"
+Remove-Item -Recurse -Force downloads
+
+# ===== CREAZIONE LINK INTELIJ A START MENU =====
+Write-Ok "Creazione collegamento a Start Menu"
+$shell = New-Object -ComObject WScript.Shell
+$shortcut = $shell.CreateShortcut("$env:APPDATA\Microsoft\Windows\Start Menu\Programs\IntelliJ IDEA.lnk")
+$shortcut.TargetPath = "$ideaDir\bin\idea64.exe"
+$shortcut.Save()
+
 # ===== FINE =====
 Write-Title "Installazione completata!"
-Write-Host "Puoi ora avviare IntelliJ da $ideaDir\bin\idea64.exe"
-Write-Host "Template Programmazione-2 pronto."
+Write-Host "Puoi ora avviare IntelliJ IDEA da $ideaDir\bin\idea64.exe"
+Write-Host "IMPORTANTE: Seguire le istruzioni sul README per la corretta configurazione dopo l'installazione!"
+Write-Host "Imposta il JDK in File > Project Structure > Platform Settings > SDKs > + > Add JDK from disk... e seleziona $javaDir\jdk-23.0.2"
 Write-Host "HelloFX disponibile in $ideaProjects\HelloFX"
-Write-Host "Imposta il JDK in File > Project Structure > Platform Settings > SDKs > + > Add JDK e seleziona $javaDir\jdk-23.0.2"
+Write-Title "Buon lavoro!"

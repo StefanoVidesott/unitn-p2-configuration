@@ -1,16 +1,19 @@
 # Configurazione Ambiente Lab Programmazione 2
 
 ![Ubuntu](https://img.shields.io/badge/Ubuntu-24.04-orange?logo=ubuntu)
+![Windows 11](https://img.shields.io/badge/Windows-11-blue?logo=windows11)
 ![Shell](https://img.shields.io/badge/Shell-Bash-yellow?logo=gnu-bash)
+![PowerShell](https://img.shields.io/badge/PowerShell-7+-blue?logo=powershell)
 ![Java](https://img.shields.io/badge/Java-23.0.2-blue?logo=java)
 ![JavaFX](https://img.shields.io/badge/JavaFX-21.0.6-green?logo=javafx)
 ![IntelliJ IDEA](https://img.shields.io/badge/IntelliJ%20IDEA-2024.3.3-purple?logo=intellijidea)
 ![Repo Size](https://img.shields.io/github/repo-size/StefanoVidesott/unitn-p2-configuration?color=blue)
 
+
 ---
 
-Questa repository permette di configurare automaticamente il computer con la configurazione dei laboratori di **Programmazione 2** (Unitn) su **Ubuntu Linux**.
-L’intero processo si avvia con un unico script (`setup.sh`) che installa e configura:
+Questa repository permette di configurare automaticamente il computer con la configurazione dei laboratori di **Programmazione 2** (Unitn) su **Ubuntu Linux** o **Windows**.
+L’intero processo si avvia con un unico script (`setup.sh` su Linux, `setup.ps1` su Windows) che installa e configura:
 
 - **OpenJDK 23.0.2**
 - **JavaFX 21.0.6** (SDK + Javadoc)
@@ -20,7 +23,7 @@ L’intero processo si avvia con un unico script (`setup.sh`) che installa e con
 
 > [!Caution]
 > **IMPORTANTE:** <br>
-> L'unico passaggio lasciato all'utente è il login con un account JetBrains (necessario per la licenza gratuita studenti) ed alla prima configurazione di un progetto, se il Project SDK non è selezionato di default: *Project SDK* -> *Add JDK from disk...* -> `~/.local/opt/java/jdk-23.0.2`.
+> Per la corretta configurazione dell'**SDK** e del progetto, seguire le istruzioni nella sezione **Dopo l'installazione** dopo aver eseguito lo script.
 
 
 ---
@@ -31,11 +34,12 @@ L’intero processo si avvia con un unico script (`setup.sh`) che installa e con
 ├── archives/
 │   └── HelloFX.tar.gz # progetto di esempio HelloFX
 ├── config/
-│   ├── path.macros.xml # variabile JAVAFX_PATH
+│   ├── path.macros.template.xml # template variabile di percorso JAVAFX_PATH
 │   ├── applicationLibraries.xml # libreria globale JavaFX
 │   └── templates/
 │       └── Programmazione-2.zip # template personalizzato
-├── setup.sh # script di installazione automatica
+├── setup.sh # script di installazione automatica per Linux
+├── setup.ps1 # script di installazione automatica per Windows
 ├── IstruzioniNativa.pdf # istruzioni ufficiali del corso
 └── README.md
 ```
@@ -43,71 +47,106 @@ L’intero processo si avvia con un unico script (`setup.sh`) che installa e con
 
 ## 🔧 Prerequisiti
 
+### Linux
 - **Ubuntu** (o distribuzione compatibile)
 - Accesso a `sudo` (necessario per installare IntelliJ in `/opt`)
+- Connessione Internet attiva
+
+### Windows
+- PowerShell 5+ o 7+ (installato di default)
 - Connessione Internet attiva
 
 ---
 
 ## 🚀 Installazione
 
-1. Clonare la repository:
+### Linux
+1. Clonare o scaricare la repository:
    ```bash
    git clone https://github.com/StefanoVidesott/unitn-p2-configuration.git
    cd unitn-p2-configuration
    ```
-
 2. Rendere eseguibile lo script:
-    ```bash
-    chmod +x setup.sh
-    ```
-
+   ```bash
+   chmod +x setup.sh
+   ```
 3. Lanciare l’installazione:
-    ```bash
-    ./setup.sh
-    ```
-
-## ⚙️ Cosa fa lo script
-- Scarica ed estrae **Java** e **JavaFX** in `~/.local/opt/java`
-
-- Scarica ed estrae **IntelliJ** in `/opt`
-
-- Estrae il progetto **HelloFX** in `~/IdeaProjects/`
-
-- **Configura IntelliJ** copiando:
-
-    - `path.macros.xml` (imposta `JAVAFX_PATH`)
-
-    - `applicationLibraries.xml` (libreria globale **JavaFX** con **Javadoc**)
-
-    - Installa il template **Programmazione-2** per i nuovi progetti
+   ```bash
+   ./setup.sh
+   ```
+### Windows
+1. Clonare o scaricare la repository:
+   ```powershell
+   git clone https://github.com/StefanoVidesott/unitn-p2-configuration.git
+   cd unitn-p2-configuration
+   ```
+2. Abilitare l’esecuzione degli script (solo se non già fatto):
+   ```powershell
+   Set-ExecutionPolicy RemoteSigned -Scope CurrentUser
+   ```
+3. Lanciare l’installazione:
+   ```powershell
+   ./setup.ps1
+   ```
 
 ## 🖥️ Dopo l’installazione
-1. Avviare IntelliJ IDEA (`/opt/idea-IU-243.24978.46/bin/idea`)
-
+### Linux
+1. Avviare IntelliJ IDEA (`/opt/idea-IU-243.24978.46/bin/idea.sh`)
 2. Effettuare login con account JetBrains (necessario per la licenza gratuita studenti)
+3. *(opzionale) Creare la desktop entry: `Ingranaggio in basso a destra -> Create Desktop Entry...`*
+4. Premere su `New Project` e selezionare il template `Programmazione-2` (dovrebbe essere in basso a sinistra, *se non appare -> vedere sezione Troubleshooting*)
+5. Se il JDK non è selezionato di default (**o diverso da** `23 Oracle OpenJDK 23.0.2`):
+    - Project SDK → Add JDK from disk...
+    - Selezionare `~/.local/opt/java/jdk-23.0.2`
+6. Selezionare il nome e altri dettagli del progetto e premere `Create`
+7. Se si apre una finestra `Customize Your AI Experience`, premere `AI Local` e chiudere la finestra.
+8. Provare a eseguire il progetto di esempio e verificare che la configurazione con **JavaFX** funzioni correttamente senza errori
 
-3. *(opzionale) Creare la desktop entry: Ingranaggio in basso a destra -> **Create Desktop Entry...***
+### Windows
+1. Avviare IntelliJ IDEA (collegamento su Start Menu o `C:\Users\<utente>\AppData\Local\Programs\IntelliJ\bin\idea64.exe`)
+2. Effettuare login con account JetBrains (necessario per la licenza gratuita studenti)
+3. Premere su `New Project` e selezionare il template `Programmazione-2` (dovrebbe essere in basso a sinistra, *se non appare -> vedere sezione Troubleshooting*)
+4. Se il JDK non è selezionato di default (**o diverso da** `23 Oracle OpenJDK 23.0.2`):
+    - Project SDK → Add JDK from disk...
+    - Selezionare `C:\Users\<utente>\AppData\Local\Programs\Java\jdk-23.0.2`
+5. Selezionare il nome e altri dettagli del progetto e premere `Create`
+6. Se si apre una finestra `Customize Your AI Experience`, premere `AI Local` e chiudere la finestra.
+7. Provare a eseguire il progetto di esempio e verificare che la configurazione con **JavaFX** funzioni correttamente senza errori
 
-3. Selezionare il template **Programmazione-2**
+## ⚙️ Cosa fa lo script
+### Linux
+- Scarica ed estrae **Java** e **JavaFX** in `~/.local/opt/java`
+- Scarica ed estrae **IntelliJ** in `/opt`
+- Estrae il progetto **HelloFX** in `~/IdeaProjects/`
+- **Configura IntelliJ** copiando:
+    - `path.macros.xml` (imposta `JAVAFX_PATH`)
+    - `applicationLibraries.xml` (libreria globale **JavaFX** con **Javadoc**)
+    - Installa il template **Programmazione-2** per i nuovi progetti
 
-4. Non sempre l'SDK viene selezionato automaticamente. Se il JDK non è selezionato di default: Project SDK -> Add JDK from disk... ->**: `~/.local/opt/java/jdk-23.0.2`
-
-5. Provare a eseguire il progetto di esempio (HelloFX)
+### Windows
+- Scarica ed estrae:
+    - **OpenJDK 23.0.2** in `C:\Users\<utente>\AppData\Local\Programs\Java\jdk-23.0.2`
+    - **JavaFX 21.0.6** (SDK + Javadoc) in `C:\Users\<utente>\AppData\Local\Programs\Java\`
+    - **IntelliJ IDEA Ultimate 2024.3.3** in `C:\Users\<utente>\AppData\Local\Programs\JetBrains\`
+- Copia ed adatta i file di **configurazione di IntelliJ** (applicationLibraries.xml, path.macros.xml non basati su quelli presenti in `./config`) con i percorsi Windows
+- Installa il template **Programmazione-2**
+- Estrae il progetto **HelloFX** in `C:\Users\<utente>\IdeaProjects\`
 
 ## 🔎 Note
-- Le configurazioni sono pensate per Linux: su Windows/Mac i percorsi vanno adattati.
-
-- Lo script è stato testato su Ubuntu 24.04.
+- Lo script è stato testato su Ubuntu 24.04.3 LTS e Windows 11
+- Lo script non modifica o rimuove eventuali installazioni di Java o IntelliJ già presenti sul sistema, verificare quindi di avviare il programma e versioni di Java corrette se presenti più versioni
 
 ## 🔧 Troubleshooting
 
 - Se il template Programmazione-2 non appare, controlla che il file `Programmazione-2.zip` sia stato copiato in `~/.config/JetBrains/IntelliJIdea2024.3/projectTemplates/`, se non funziona aprire il progetto `HelloFX` e creare il template manualmente.
-
-- Per ogni altro problema consultare il file `IstruzioniNativa.pdf` allegato alla repository.
+- Se il JDK non è selezionato di default, aggiungerlo manualmente come descritto nella sezione "Dopo l'installazione".
+- Se il progetto non compila o dà errori relativi a JavaFX, controllare che la libreria globale `JavaFX` sia presente in `File -> Project Structure... -> Platform Settings -> Global Libraries`. In caso contrario, importarla manualmente da `~/.local/opt/java/javafx-sdk-21.0.6/lib` (Linux) o `C:\Users\<utente>\AppData\Local\Programs\Java\javafx-sdk-21.0.6\lib` (Windows).
+- Se lo script non funziona, controllare i permessi di esecuzione (Linux) o la politica di esecuzione degli script (Windows).
+- Per ogni altro problema consultare il file `IstruzioniNativa.pdf` allegato alla repository. Eventualmente l'apertura di un issue su GitHub è ben accetta ed aiuta a migliorare lo script : )
 
 ## Disinstallazione
-Per rimuovere IntelliJ e Java installati dallo script, eseguire (sostituendo con la versione effettivamente installata se diversa):
+Per rimuovere IntelliJ e Java installati dallo script, eseguire (sostituendo con la versione effettivamente installata se modificata):
+### Linux
 ```bash
 sudo rm -rf /opt/idea-IU-243.24978.46/
 rm -rf ~/.config/JetBrains/IntelliJIdea2024.3/
@@ -115,4 +154,13 @@ rm -rf ~/.cache/JetBrains/IntelliJIdea2024.3/
 rm -rf ~/.local/share/JetBrains/IntelliJIdea2024.3/
 rm -rf ~/.local/opt/java/
 rm -rf ~/IdeaProjects/ # (opzionale, rimuove i progetti creati)
+```
+### Windows
+```powershell
+Remove-Item -Recurse -Force "$env:LOCALAPPDATA\Programs\IntelliJ"
+Remove-Item -Recurse -Force "$env:APPDATA\JetBrains\IntelliJIdea2024.3\"
+Remove-Item -Recurse -Force "$env:LOCALAPPDATA\JetBrains\IntelliJIdea2024.3\"
+Remove-Item -Recurse -Force "$env:LOCALAPPDATA\Programs\Java"
+Remove-Item -Recurse -Force "$env:USERPROFILE\IdeaProjects\" # (opzionale, rimuove i progetti creati)
+Remove-Item -Path "$env:APPDATA\Microsoft\Windows\Start Menu\Programs\IntelliJ IDEA.lnk" # rimuove il collegamento a Start Menu
 ```

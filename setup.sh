@@ -39,11 +39,10 @@ JDK_URL="https://download.java.net/java/GA/jdk23.0.2/6da2a6609d6e406f85c491fcb11
 JAVAFX_SDK_URL="https://download2.gluonhq.com/openjfx/21.0.6/openjfx-21.0.6_linux-x64_bin-sdk.zip"
 JAVAFX_DOC_URL="https://download2.gluonhq.com/openjfx/21.0.6/openjfx-21.0.6-javadoc.zip"
 
-DOWNLOAD_DIR=~/Downloads/setup_temp
+DOWNLOAD_DIR=downloads
 mkdir -p "$DOWNLOAD_DIR"
 
-# ====== START ======
-
+# ===== INSTALL JDK + JAVAFX =====
 _title "Download e installazione JDK"
 _msg "Scaricamento JDK 23.0.2..."
 wget -c "$JDK_URL" -O "$DOWNLOAD_DIR/jdk.tar.gz"
@@ -63,16 +62,19 @@ _msg "Estrazione JavaFX Javadoc..."
 unzip -qo "$DOWNLOAD_DIR/javafx-doc.zip" -d ~/.local/opt/java
 _ok "JavaFX SDK e Javadoc installati in ~/.local/opt/java"
 
+# ===== INSTALL INTELLIJ =====
 _title "Download e installazione IntelliJ IDEA"
 _msg "Scaricamento IntelliJ IDEA Ultimate 2024.3.3..."
 wget -c "$INTELLIJ_URL" -O "$DOWNLOAD_DIR/ideaIU.tar.gz"
 _msg "Estrazione IntelliJ IDEA..."
 sudo tar -xzf "$DOWNLOAD_DIR/ideaIU.tar.gz" -C /opt/ && _ok "IntelliJ estratto in /opt"
 
+# ===== HELLOFX =====
 _title "Installazione HelloFX"
 mkdir -p ~/IdeaProjects
 tar -xzf archives/HelloFX.tar.gz -C ~/IdeaProjects/ && _ok "HelloFX installato in ~/IdeaProjects/"
 
+# ===== CONFIGURAZIONE INTELLIJ =====
 _title "Configurazione IntelliJ"
 CONFIG_DIR=~/.config/JetBrains/IntelliJIdea2024.3
 mkdir -p "$CONFIG_DIR/options"
@@ -86,14 +88,14 @@ mkdir -p $TEMPLATES_DIR
 cp config/templates/Programmazione-2.zip $TEMPLATES_DIR/
 _ok "Template 'Programmazione-2' copiato in IntelliJ"
 
-# Pulizia temporanei
+# ===== PULIZIA TEMPORANEI =====
 _msg "Pulizia file temporanei..."
 rm -rf "$DOWNLOAD_DIR"
 
+# ===== FINE =====
 _title "Installazione completata"
-_echo "${NL}${COL_CYN}Puoi ora avviare IntelliJ IDEA e creare un nuovo progetto utilizzando il template 'Programmazione-2'."
-_echo "${COL_RED}IMPORTANTE:${NORM}${COL_YEL} Quando configuri il primo progetto assicurati di selezionare il 'Project SDK' se non selezionato di default: 'NO SDK' -> 'Add JDK from disk -> '~/.local/opt/java/jdk-23.0.2'"
-_echo "${COL_CYN}Il progetto HelloFX è disponibile in ~/IdeaProjects/HelloFX."
-_echo "${NL}Per avviare IntelliJ IDEA, esegui: '/opt/idea-IU-243.24978.46/bin/idea.sh'"
-_echo "(poi potrai creare una desktop entry dall'IDE: Ingranaggio in basso a destra -> 'Create Desktop Entry...'). ${NORM}"
+_echo "${NL}${COL_CYN}Puoi ora avviare IntelliJ IDEA da /opt/idea-IU-243.24978.46/bin/idea.sh"
+_echo "${COL_RED}IMPORTANTE:${NORM}${COL_YEL} Segui le istruzioni nella sezione ${BOLD}'Dopo l'installazione'${NORM}${COL_YEL} per la corretta configurazione dell'SDK e del progetto.${NORM}"
+_echo "${NL}${COL_CYN}Imposta il JDK in File -> Project Structure -> Platform Settings -> SDKs -> + -> Add JDK from disk... e seleziona ~/.local/opt/java/jdk-23.0.2${NORM}"
+_echo "HelloFX è disponibile in ~/IdeaProjects/HelloFX."
 _title "Buon lavoro!"
