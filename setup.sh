@@ -42,32 +42,31 @@ JAVAFX_DOC_URL="https://download2.gluonhq.com/openjfx/21.0.6/openjfx-21.0.6-java
 DOWNLOAD_DIR=downloads
 mkdir -p "$DOWNLOAD_DIR"
 
-# ===== INSTALL JDK + JAVAFX =====
-_title "Download e installazione JDK"
+# ===== DOWNLOAD RESOURCES =====
+_title "Download delle risorse"
 _msg "Scaricamento JDK 23.0.2..."
 wget -c "$JDK_URL" -O "$DOWNLOAD_DIR/jdk.tar.gz"
-mkdir -p ~/.local/opt/java
-_msg "Estrazione JDK..."
-tar -xzf "$DOWNLOAD_DIR/jdk.tar.gz" -C ~/.local/opt/java && _ok "JDK installato in ~/.local/opt/java"
-
-_title "Download e installazione JavaFX SDK"
 _msg "Scaricamento JavaFX SDK..."
 wget -c "$JAVAFX_SDK_URL" -O "$DOWNLOAD_DIR/javafx-sdk.zip"
 _msg "Scaricamento JavaFX Javadoc..."
 wget -c "$JAVAFX_DOC_URL" -O "$DOWNLOAD_DIR/javafx-doc.zip"
+_msg "Scaricamento IntelliJ IDEA Ultimate 2024.3.3..."
+wget -c "$INTELLIJ_URL" -O "$DOWNLOAD_DIR/ideaIU.tar.gz"
+_ok "Download completati"
 
+# ===== INSTALLAZIONE RISORSE =====
+_title "Installazione delle risorse"
+mkdir -p ~/.local/opt/java
+_msg "Estrazione JDK..."
+tar -xzf "$DOWNLOAD_DIR/jdk.tar.gz" -C ~/.local/opt/java && _ok "JDK installato in ~/.local/opt/java"
 _msg "Estrazione JavaFX SDK..."
 unzip -qo "$DOWNLOAD_DIR/javafx-sdk.zip" -d ~/.local/opt/java && _ok "JavaFX SDK installato in ~/.local/opt/java"
 _msg "Estrazione JavaFX Javadoc..."
 unzip -qo "$DOWNLOAD_DIR/javafx-doc.zip" -d ~/.local/opt/java
 _ok "JavaFX SDK e Javadoc installati in ~/.local/opt/java"
-
-# ===== INSTALL INTELLIJ =====
-_title "Download e installazione IntelliJ IDEA"
-_msg "Scaricamento IntelliJ IDEA Ultimate 2024.3.3..."
-wget -c "$INTELLIJ_URL" -O "$DOWNLOAD_DIR/ideaIU.tar.gz"
 _msg "Estrazione IntelliJ IDEA..."
 sudo tar -xzf "$DOWNLOAD_DIR/ideaIU.tar.gz" -C /opt/ && _ok "IntelliJ estratto in /opt"
+_ok "Installazione delle risorse completata"
 
 # ===== HELLOFX =====
 _title "Installazione HelloFX"
@@ -88,9 +87,9 @@ mkdir -p $TEMPLATES_DIR
 cp config/templates/Programmazione-2.zip $TEMPLATES_DIR/
 _ok "Template 'Programmazione-2' copiato in IntelliJ"
 
-# ===== PULIZIA TEMPORANEI =====
-_msg "Pulizia file temporanei..."
-rm -rf "$DOWNLOAD_DIR"
+# # ===== PULIZIA TEMPORANEI =====
+# _msg "Pulizia file temporanei..."
+# rm -rf "$DOWNLOAD_DIR"
 
 # ===== FINE =====
 _title "Installazione completata"

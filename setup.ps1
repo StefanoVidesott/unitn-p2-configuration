@@ -3,7 +3,7 @@ function Write-Title($msg) {
     Write-Host "`n==== $msg ====" -ForegroundColor Magenta
 }
 function Write-Ok($msg) {
-    Write-Host "✔ $msg" -ForegroundColor Green
+    Write-Host "OK - $msg" -ForegroundColor Green
 }
 
 # ===== VARIABILI =====

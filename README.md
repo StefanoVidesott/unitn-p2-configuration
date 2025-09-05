@@ -75,16 +75,17 @@ L’intero processo si avvia con un unico script (`setup.sh` su Linux, `setup.ps
    ./setup.sh
    ```
 ### Windows
-1. Clonare o scaricare la repository:
+1. Avviare una finestra di PowerShell (tasto destro su Start Menu → Terminal o PowerShell)
+2. Clonare (o scaricare) la repository:
    ```powershell
    git clone https://github.com/StefanoVidesott/unitn-p2-configuration.git
    cd unitn-p2-configuration
    ```
-2. Abilitare l’esecuzione degli script (solo se non già fatto):
+3. Abilitare l’esecuzione degli script (solo se non già fatto):
    ```powershell
    Set-ExecutionPolicy RemoteSigned -Scope CurrentUser
    ```
-3. Lanciare l’installazione:
+4. Lanciare l’installazione:
    ```powershell
    ./setup.ps1
    ```
