@@ -1,9 +1,7 @@
 # Configurazione Ambiente Lab Programmazione 2
 
-![Ubuntu](https://img.shields.io/badge/Ubuntu-24.04-orange?logo=ubuntu)
+![Linux](https://img.shields.io/badge/Linux-blue?logo=linux)
 ![Windows 11](https://img.shields.io/badge/Windows-11-blue?logo=windows11)
-![Shell](https://img.shields.io/badge/Shell-Bash-yellow?logo=gnu-bash)
-![PowerShell](https://img.shields.io/badge/PowerShell-7+-blue?logo=powershell)
 ![Java](https://img.shields.io/badge/Java-23.0.2-blue?logo=java)
 ![JavaFX](https://img.shields.io/badge/JavaFX-21.0.6-green?logo=javafx)
 ![IntelliJ IDEA](https://img.shields.io/badge/IntelliJ%20IDEA-2024.3.3-purple?logo=intellijidea)
@@ -12,7 +10,7 @@
 
 ---
 
-Questa repository permette di configurare automaticamente il computer con la configurazione dei laboratori di **Programmazione 2** (Unitn) su **Ubuntu Linux** o **Windows**.
+Questa repository permette di configurare automaticamente il computer con la configurazione dei laboratori di **Programmazione 2** (Unitn) su **Linux** (è stato testato su *Ubuntu 24.04* e *Arch Linux*) o **Windows**.
 L’intero processo si avvia con un unico script (`setup.sh` su Linux, `setup.ps1` su Windows) che installa e configura:
 
 - **OpenJDK 23.0.2**
@@ -21,8 +19,7 @@ L’intero processo si avvia con un unico script (`setup.sh` su Linux, `setup.ps
 - **Template derivato e Progetto HelloFX**
 - **Configurazioni IntelliJ** (variabili di percorso, librerie, template di progetto)
 
-> [!Caution]
-> **IMPORTANTE:** <br>
+> [!Important]
 > Per la corretta configurazione dell'**SDK** e del progetto, seguire le istruzioni nella sezione **Dopo l'installazione** dopo aver eseguito lo script.
 
 
@@ -51,9 +48,15 @@ L’intero processo si avvia con un unico script (`setup.sh` su Linux, `setup.ps
 - **Ubuntu** (o distribuzione compatibile)
 - Accesso a `sudo` (necessario per installare IntelliJ in `/opt`)
 - Connessione Internet attiva
+- Pacchetti richiesti
+```bash
+wget # download dei file da internet
+tar # estrazione archivi .tar.gz
+unzip # estrazione archivi .zip
+```
 
 ### Windows
-- PowerShell 5+ o 7+ (installato di default)
+- PowerShell 5+ o 7+
 - Connessione Internet attiva
 
 ---
