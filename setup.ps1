@@ -1,8 +1,13 @@
+[Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12
+
 function Write-Title($msg) {
     Write-Host "`n==== $msg ====" -ForegroundColor Magenta
 }
 function Write-Ok($msg) {
     Write-Host "OK - $msg" -ForegroundColor Green
+}
+function Write-ErrorMsg($msg) {
+    Write-Host "ERRORE - $msg" -ForegroundColor Red
 }
 
 $baseDir     = "$env:LOCALAPPDATA\Programs"
@@ -10,6 +15,9 @@ $ideaDir     = "$baseDir\IntelliJ"
 $javaDir     = "$baseDir\Java"
 $configDir   = "$env:APPDATA\JetBrains\IntelliJIdea2025.3"
 $templateDir = "$configDir\projectTemplates"
+
+New-Item -ItemType Directory -Force -Path $ideaDir | Out-Null
+New-Item -ItemType Directory -Force -Path $javaDir | Out-Null
 
 $ideaZip     = "ideaIU-2025.3.2.win.zip"
 $jdkZip      = "openjdk-25.0.1_windows-x64_bin.zip"
@@ -29,35 +37,44 @@ New-Item -ItemType Directory -Force -Path downloads | Out-Null
 foreach ($file in $downloads.Keys) {
     $url = $downloads[$file]
     $out = "downloads\$file"
-    if (-Not (Test-Path $out)) {
+    if (-Not (Test-Path $out) -or (Get-Item $out).Length -eq 0) {
         Write-Host "↓ $file"
-        Invoke-WebRequest -Uri $url -OutFile $out
+        try {
+            Invoke-WebRequest -Uri $url -OutFile $out -UseBasicParsing -ErrorAction Stop
+        } catch {
+            Write-ErrorMsg "Impossibile scaricare $file. Verifica la tua connessione!"
+            Write-ErrorMsg $_.Exception.Message
+            exit
+        }
     } else {
         Write-Host "$file già presente, skip"
     }
 }
 
 Write-Title "Installazione JDK e JavaFX"
-Expand-Archive -Force "downloads\$jdkZip" -DestinationPath $javaDir
-Expand-Archive -Force "downloads\$javafxZip" -DestinationPath "$javaDir"
-Expand-Archive -Force "downloads\$javafxDoc" -DestinationPath "$javaDir"
+Write-Host "Estrazione JDK..."
+tar.exe -xf "downloads\$jdkZip" -C "$javaDir"
+Write-Host "Estrazione JavaFX SDK..."
+tar.exe -xf "downloads\$javafxZip" -C "$javaDir"
+Write-Host "Estrazione JavaFX Javadoc..."
+tar.exe -xf "downloads\$javafxDoc" -C "$javaDir"
 Write-Ok "Java + JavaFX installati in $javaDir"
 
 Write-Title "Installazione IntelliJ IDEA"
-Expand-Archive -Force "downloads\$ideaZip" -DestinationPath $ideaDir
+Write-Host "Estrazione IntelliJ (potrebbe volerci qualche minuto, attendere prego)..."
+tar.exe -xf "downloads\$ideaZip" -C "$ideaDir"
 Write-Ok "IntelliJ estratto in $ideaDir"
 
 Write-Title "Installazione HelloFX"
 $ideaProjects = "$env:USERPROFILE\IdeaProjects"
 New-Item -ItemType Directory -Force -Path $ideaProjects | Out-Null
-tar -xzf "archives\$helloFxZip" -C $ideaProjects
+tar.exe -xzf "archives\$helloFxZip" -C "$ideaProjects"
 Write-Ok "HelloFX estratto in $ideaProjects"
 
 Write-Title "Configurazione IntelliJ"
 New-Item -ItemType Directory -Force -Path "$configDir\options" | Out-Null
 
 $javaDirXml = $javaDir -replace '\\', '/'
-$userProfileXml = $env:USERPROFILE -replace '\\', '/'
 
 $xmlMacros = @"
 <application>
@@ -103,7 +120,6 @@ Write-Ok "applicationLibraries.xml generato"
 
 Write-Host "Configurazione percorsi sicuri (Trusted Projects)..." -ForegroundColor Cyan
 $userProjectsXml = "$env:USERPROFILE\IdeaProjects" -replace '\\', '/'
-
 $xmlTrusted = @"
 <application>
   <component name="Trusted.Paths">
